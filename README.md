@@ -13,3 +13,13 @@ calculate total costs<h4/>
 
 - The list of products will be stored in an F# collection (e.g., List or Map) which will be initialized by you in the F# code.
 
+## 2. User Interaction:
+- **Browse Products**: The user will be able to view the products available in the store.
+- **Add to Cart**: Users can select items by name and add them to their cart.
+- **View Cart**: The user can view the items in their cart at any time.
+- **Checkout**: Once the user is done shopping, they can view the total price of the items in their cart.
+
+## 3. Cart Management:
+- The cart will be represented as a list of product names.
+- Users can add and remove products from their cart.
+- At checkout, the program will calculate the total cost by summing the prices of the items in the cart.
