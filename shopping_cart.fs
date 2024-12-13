@@ -27,3 +27,11 @@ let addButton = new Button(Text = "Add to Cart", Width = 120, Height = 30, Left 
 let removeButton = new Button(Text = "Remove from Cart", Width = 150, Height = 30, Left = 400, Top = 320)
 let checkoutButton = new Button(Text = "Checkout", Width = 100, Height = 30, Left = 10, Top = 360)
 let totalLabel = new Label(Text = "Total: $0.00", Width = 200, Height = 30, Left = 400, Top = 360)
+
+// Add a product to the cart
+let addToCart () =
+    let selectedIndex = catalogListBox.SelectedIndex
+    if selectedIndex >= 0 && selectedIndex < productCatalog.Length then
+        let selectedProduct = productCatalog.[selectedIndex]
+        cart <- selectedProduct :: cart
+        updateCart ()
