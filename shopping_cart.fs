@@ -35,3 +35,11 @@ let addToCart () =
         let selectedProduct = productCatalog.[selectedIndex]
         cart <- selectedProduct :: cart
         updateCart ()
+        
+// Perform checkout
+let checkout () =
+    let total = cart |> List.sumBy (fun p -> p.Price)
+    MessageBox.Show(sprintf "Total cost: $%.2f\nThank you for shopping!" total, "Checkout") |> ignore
+    cart <- []
+    updateCart ()
+    totalLabel.Text <- "Total: $0.00"
