@@ -87,7 +87,7 @@ removeButton.Click.Add (fun _ ->
 
 checkoutButton.Click.Add (fun _ -> checkout ())
 
-   Check if product already exists in the cart
+  // Check if product already exists in the cart
         let existingCart = !cart
         let updatedCart = 
             if List.exists (fun (p, _) -> p.Name = selectedProduct.Name) existingCart then
