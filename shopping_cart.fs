@@ -87,6 +87,24 @@ removeButton.Click.Add (fun _ ->
 
 checkoutButton.Click.Add (fun _ -> checkout ())
 
+   Check if product already exists in the cart
+        let existingCart = !cart
+        let updatedCart = 
+            if List.exists (fun (p, _) -> p.Name = selectedProduct.Name) existingCart then
+                existingCart 
+                |> List.map (fun (p, qty) -> 
+                    if p.Name = selectedProduct.Name then 
+                        (p, qty + quantity) 
+                    else 
+                        (p, qty)
+                )
+            else
+                (selectedProduct, quantity) :: existingCart
+
+        cart := updatedCart
+        updateCart ()
+        updateTotals () // Update total and item count
+
 // Add components to the form
 mainForm.Controls.Add(catalogListBox)
 mainForm.Controls.Add(cartListBox)
