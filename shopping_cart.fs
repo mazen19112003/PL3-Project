@@ -63,19 +63,16 @@ let checkout () =
     updateCart ()
     totalLabel.Text <- "Total: $0.00"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Remove a product from the cart
+let removeFromCart () =
+    let selectedIndex = cartListBox.SelectedIndex
+    if selectedIndex >= 0 && selectedIndex < (!cart).Length then
+        let (product, _) = (!cart).[selectedIndex]
+        cart := !cart |> List.filter (fun (p, _) -> p.Name <> product.Name)
+        updateCart ()
+        updateTotals () // Update total and item count
+    else
+        MessageBox.Show("Select a product to remove from your cart.") |> ignore
 
 // Wire up event handlers
 addButton.Click.Add (fun _ -> 
