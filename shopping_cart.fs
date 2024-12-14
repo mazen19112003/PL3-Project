@@ -1,3 +1,7 @@
+open System
+open System.Windows.Forms
+open System.Drawing
+
 // Define the Product type
 type Product = {
     Name: string
@@ -5,8 +9,8 @@ type Product = {
     Description: string
 }
 
-// Product catalog
-let productCatalog: Product list = [
+// Product catalog (use reference to make it "updatable")
+let productCatalog = ref [
     { Name = "Laptop"; Price = 1200.0; Description = "A high-performance laptop" }
     { Name = "Smartphone"; Price = 800.0; Description = "A smartphone with great features" }
     { Name = "Headphones"; Price = 150.0; Description = "Noise-canceling headphones" }
@@ -14,8 +18,8 @@ let productCatalog: Product list = [
     { Name = "Keyboard"; Price = 45.0; Description = "A mechanical keyboard" }
 ]
 
-// Mutable cart
-let mutable cart: Product list = []
+// Use a reference for cart (store a list of (Product, Quantity))
+let cart = ref []
 
 // Main form
 let mainForm = new Form(Text = "Simple Store Simulator", Width = 800, Height = 600)
@@ -23,10 +27,14 @@ let mainForm = new Form(Text = "Simple Store Simulator", Width = 800, Height = 6
 // Create UI components
 let catalogListBox = new ListBox(Width = 350, Height = 300, Left = 10, Top = 10)
 let cartListBox = new ListBox(Width = 350, Height = 300, Left = 400, Top = 10)
-let addButton = new Button(Text = "Add to Cart", Width = 120, Height = 30, Left = 10, Top = 320)
+let quantityLabel = new Label(Text = "Quantity:", Width = 70, Height = 30, Left = 10, Top = 320) // New label for quantity
+let quantityTextBox = new TextBox(Width = 50, Height = 30, Left = 90, Top = 320, Text = "1") // New textbox for quantity
+let addButton = new Button(Text = "Add to Cart", Width = 120, Height = 30, Left = 150, Top = 320)
 let removeButton = new Button(Text = "Remove from Cart", Width = 150, Height = 30, Left = 400, Top = 320)
 let checkoutButton = new Button(Text = "Checkout", Width = 100, Height = 30, Left = 10, Top = 360)
 let totalLabel = new Label(Text = "Total: $0.00", Width = 200, Height = 30, Left = 400, Top = 360)
+let itemCountLabel = new Label(Text = "Items in Cart: 0", Width = 200, Height = 30, Left = 400, Top = 400) // New label for item count
+
 
 // Populate the catalog
 let updateCatalog () =
