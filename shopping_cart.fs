@@ -35,6 +35,17 @@ let checkoutButton = new Button(Text = "Checkout", Width = 100, Height = 30, Lef
 let totalLabel = new Label(Text = "Total: $0.00", Width = 200, Height = 30, Left = 400, Top = 360)
 let itemCountLabel = new Label(Text = "Items in Cart: 0", Width = 200, Height = 30, Left = 400, Top = 400) // New label for item count
 
+// Populate the catalog
+let updateCatalog () =
+    catalogListBox.Items.Clear()
+    for product in !productCatalog do
+        catalogListBox.Items.Add(sprintf "%s - $%.2f" product.Name product.Price)
+
+// Populate the cart (show product name, price, and quantity)
+let updateCart () =
+    cartListBox.Items.Clear()
+    for (product, quantity) in !cart do
+        cartListBox.Items.Add(sprintf "%s - $%.2f (x%d)" product.Name product.Price quantity)
 
 // Populate the catalog
 let updateCatalog () =
