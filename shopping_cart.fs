@@ -28,6 +28,17 @@ let removeButton = new Button(Text = "Remove from Cart", Width = 150, Height = 3
 let checkoutButton = new Button(Text = "Checkout", Width = 100, Height = 30, Left = 10, Top = 360)
 let totalLabel = new Label(Text = "Total: $0.00", Width = 200, Height = 30, Left = 400, Top = 360)
 
+// Populate the catalog
+let updateCatalog () =
+    catalogListBox.Items.Clear()
+    for product in productCatalog do
+        catalogListBox.Items.Add(sprintf "%s - $%.2f" product.Name product.Price)
+
+let updateCart () =
+    cartListBox.Items.Clear()
+    for product in cart do
+        cartListBox.Items.Add(sprintf "%s - $%.2f" product.Name product.Price)
+
 // Add a product to the cart
 let addToCart () =
     let selectedIndex = catalogListBox.SelectedIndex
