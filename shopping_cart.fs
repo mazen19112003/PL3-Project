@@ -54,3 +54,42 @@ let checkout () =
     cart <- []
     updateCart ()
     totalLabel.Text <- "Total: $0.00"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Wire up event handlers
+addButton.Click.Add (fun _ -> 
+    addToCart ()
+    let total = cart |> List.sumBy (fun p -> p.Price)
+    totalLabel.Text <- sprintf "Total: $%.2f" total)
+
+removeButton.Click.Add (fun _ -> 
+    removeFromCart ()
+    let total = cart |> List.sumBy (fun p -> p.Price)
+    totalLabel.Text <- sprintf "Total: $%.2f" total)
+
+checkoutButton.Click.Add (fun _ -> checkout ())
+
+// Add components to the form
+mainForm.Controls.Add(catalogListBox)
+mainForm.Controls.Add(cartListBox)
+mainForm.Controls.Add(addButton)
+mainForm.Controls.Add(removeButton)
+mainForm.Controls.Add(checkoutButton)
+mainForm.Controls.Add(totalLabel)
+
+// Initialize the catalog and run the application
+updateCatalog ()
+Application.Run(mainForm)
