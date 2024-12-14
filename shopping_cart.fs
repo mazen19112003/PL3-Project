@@ -74,6 +74,15 @@ let removeFromCart () =
     else
         MessageBox.Show("Select a product to remove from your cart.") |> ignore
 
+// Perform checkout (reset the cart)
+let checkout () =
+    let total = !cart |> List.sumBy (fun (p, qty) -> p.Price * float qty)
+    let itemCount = !cart |> List.sumBy (fun (_, qty) -> qty)
+    MessageBox.Show(sprintf "Total cost: $%.2f\nTotal items: %d\nThank you for shopping!" total itemCount, "Checkout") |> ignore
+    cart := [] // Clear the cart
+    updateCart ()
+    updateTotals () // Reset total and item count
+
 // Wire up event handlers
 addButton.Click.Add (fun _ -> 
     addToCart ()
