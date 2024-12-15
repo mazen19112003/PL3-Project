@@ -97,41 +97,24 @@ let checkout () =
 // Wire up event handlers
 addButton.Click.Add (fun _ -> 
     addToCart ()
-    let total = cart |> List.sumBy (fun p -> p.Price)
-    totalLabel.Text <- sprintf "Total: $%.2f" total)
+)
 
 removeButton.Click.Add (fun _ -> 
     removeFromCart ()
-    let total = cart |> List.sumBy (fun p -> p.Price)
-    totalLabel.Text <- sprintf "Total: $%.2f" total)
+)
 
 checkoutButton.Click.Add (fun _ -> checkout ())
-
-  // Check if product already exists in the cart
-        let existingCart = !cart
-        let updatedCart = 
-            if List.exists (fun (p, _) -> p.Name = selectedProduct.Name) existingCart then
-                existingCart 
-                |> List.map (fun (p, qty) -> 
-                    if p.Name = selectedProduct.Name then 
-                        (p, qty + quantity) 
-                    else 
-                        (p, qty)
-                )
-            else
-                (selectedProduct, quantity) :: existingCart
-
-        cart := updatedCart
-        updateCart ()
-        updateTotals () // Update total and item count
 
 // Add components to the form
 mainForm.Controls.Add(catalogListBox)
 mainForm.Controls.Add(cartListBox)
+mainForm.Controls.Add(quantityLabel) // Quantity label
+mainForm.Controls.Add(quantityTextBox) // Quantity input field
 mainForm.Controls.Add(addButton)
 mainForm.Controls.Add(removeButton)
 mainForm.Controls.Add(checkoutButton)
 mainForm.Controls.Add(totalLabel)
+mainForm.Controls.Add(itemCountLabel) // Item count label
 
 // Initialize the catalog and run the application
 updateCatalog ()
