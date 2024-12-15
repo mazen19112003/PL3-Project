@@ -47,6 +47,24 @@ let updateCart () =
     for (product, quantity) in !cart do
         cartListBox.Items.Add(sprintf "%s - $%.2f (x%d)" product.Name product.Price quantity)
 
+// Update the total cost and item count labels
+let updateTotals () =
+    let total = !cart |> List.sumBy (fun (p, qty) -> p.Price * float qty)
+    let itemCount = !cart |> List.sumBy (fun (_, qty) -> qty)
+    totalLabel.Text <- sprintf "Total: $%.2f" total
+    itemCountLabel.Text <- sprintf "Items in Cart: %d" itemCount
+
+// Add a product to the cart
+let addToCart () =
+    let selectedIndex = catalogListBox.SelectedIndex
+    if selectedIndex >= 0 && selectedIndex < (!productCatalog).Length then
+        // Get selected product and quantity from the input
+        let selectedProduct = (!productCatalog).[selectedIndex]
+        let quantity = 
+            match Int32.TryParse(quantityTextBox.Text) with
+            | true, qty when qty > 0 -> qty
+            | _ -> 1 // Default to 1 if invalid quantity
+
 // Populate the catalog
 let updateCatalog () =
     catalogListBox.Items.Clear()
