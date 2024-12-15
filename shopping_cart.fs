@@ -65,32 +65,23 @@ let addToCart () =
             | true, qty when qty > 0 -> qty
             | _ -> 1 // Default to 1 if invalid quantity
 
-// Populate the catalog
-let updateCatalog () =
-    catalogListBox.Items.Clear()
-    for product in productCatalog do
-        catalogListBox.Items.Add(sprintf "%s - $%.2f" product.Name product.Price)
+        // Check if product already exists in the cart
+        let existingCart = !cart
+        let updatedCart = 
+            if List.exists (fun (p, _) -> p.Name = selectedProduct.Name) existingCart then
+                existingCart 
+                |> List.map (fun (p, qty) -> 
+                    if p.Name = selectedProduct.Name then 
+                        (p, qty + quantity) 
+                    else 
+                        (p, qty)
+                )
+            else
+                (selectedProduct, quantity) :: existingCart
 
-let updateCart () =
-    cartListBox.Items.Clear()
-    for product in cart do
-        cartListBox.Items.Add(sprintf "%s - $%.2f" product.Name product.Price)
-
-// Add a product to the cart
-let addToCart () =
-    let selectedIndex = catalogListBox.SelectedIndex
-    if selectedIndex >= 0 && selectedIndex < productCatalog.Length then
-        let selectedProduct = productCatalog.[selectedIndex]
-        cart <- selectedProduct :: cart
+        cart := updatedCart
         updateCart ()
-        
-// Perform checkout
-let checkout () =
-    let total = cart |> List.sumBy (fun p -> p.Price)
-    MessageBox.Show(sprintf "Total cost: $%.2f\nThank you for shopping!" total, "Checkout") |> ignore
-    cart <- []
-    updateCart ()
-    totalLabel.Text <- "Total: $0.00"
+        updateTotals () // Update total and item count
 
 // Remove a product from the cart
 let removeFromCart () =
